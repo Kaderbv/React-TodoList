@@ -1,12 +1,15 @@
-//ctrl+alt+r snippet 
+
 import React from 'react'
 
-const Header = () => {
+const Header = ({title ="Default Title"}) => {
   return (
     <header>
-       To do List 
+      {title}
     </header>
   )
 }
 
+// Header.defaultProps = {
+//   title: "Default Title"
+// }
 export default Header

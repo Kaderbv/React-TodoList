@@ -14,7 +14,7 @@ const TodoListContent = () => {
             {
                 id:2,
                 checked:false,
-                name: "Exercise" 
+                name: "Exercise quickly" 
             },
             {
                 id:3,
@@ -41,15 +41,19 @@ const TodoListContent = () => {
     
   return (
     <main>
+        {items.length === 0 ? <p style={{marginTop:'2rem', color:'Highlight'}}>No items in to do list</p>  :
         <ul>
             {items.map(item=> 
                 <li className='item' key={item.id}>
-                    <input type="checkbox" onChange={() => handleChange(item.id)} checked={item.checked}></input>
-                    <label> {item.name}</label> 
+                    <input type="checkbox"
+                    onChange={() => handleChange(item.id)} checked={item.checked}></input>
+                    <label style={item.checked ? {textDecoration:'line-through'} : null}
+                    > {item.name}</label> 
                     <FaTrashAlt role='button' tabIndex='0' onClick={() => handleDelete(item.id)} />                   
                 </li>
             )}
         </ul>
+        }
     </main>
   )
 }
