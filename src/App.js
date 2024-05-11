@@ -9,9 +9,13 @@ import { useState, useEffect } from 'react';
 import SearchListItem from './SearchListItem';
 
 function App() {
+    //pass empty array so that if data fails to read from db or any storage , it doesn't crash the application
+    //const [items, setItems] = useState(JSON.parse(localStorage.getItem("todo_list")) || []);
     const [items, setItems] = useState([]);
     const [newItem, setNewItem] = useState('')
-    const [searchItem, setSearchItem] = useState('')
+    const [searchItem, setSearchItem] = useState('')    
+    const [errorLog, setErrorLog] = useState(null)
+    const API_URL = 'http://localhost:3500/itewms'
     
     const handleSubmit = (e)=>
     {
@@ -33,10 +37,31 @@ function App() {
     //     console.log("renders only on page load")
     // },[]);    
 
+    // useEffect(()=>
+    // {
+    //     console.log("renders only when the state of the variable changes")
+    // },[items]);
+
     useEffect(()=>
     {
-        console.log("renders only when the state of the variable changes")
-    },[items]);
+        const fetchItems = async ()=>
+        {
+            try {
+                const response = await fetch(API_URL)
+                if(!response.ok) throw Error("Data not found")
+                const dbListItems = await response.json()
+                console.log("calling db");
+                setItems(dbListItems);
+                // saveInLocalStorage(dbListItems)
+            } catch (error) {
+                setErrorLog(error.message)
+                //console.log(error.stack)
+            }
+        }
+        
+
+        (async () => await fetchItems())()
+    },[]);
 
     function addItem()
     {
@@ -76,11 +101,13 @@ function App() {
             searchItem={searchItem}
             setSearchItem={setSearchItem} ></SearchListItem>
         <Header title="To Do List Item"/>
-        {/* <Content></Content> */}
-        {/* <TodoListContent></TodoListContent> */}
-        <Todo items={items.filter(item => (item.name.toLowerCase()).includes(searchItem.toLowerCase()))} 
-          handleChange={handleChange}
-          handleDelete={handleDelete} />
+        {/* <Content></Content> */}    {/* <TodoListContent></TodoListContent> */}
+        <main>
+            {errorLog && <p>{`Error: ${errorLog}`}</p>}
+            <Todo items={items.filter(item => (item.name.toLowerCase()).includes(searchItem.toLowerCase()))} 
+            handleChange={handleChange}
+            handleDelete={handleDelete} />
+        </main>
         <Footer length={items.length} ></Footer>
     </div>
   );

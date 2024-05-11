@@ -1,0 +1,20 @@
+{
+    "items":
+    [
+        {
+        "id":1,
+        "checked":true,
+        "name": "Practice React" 
+        },
+        {
+            "id":2,
+            "checked":false,
+            "name": "Exercise quickly" 
+        },
+        {
+            "id":3,
+            "checked":false,
+            "name": "Read book" 
+        }  
+    ]
+}
