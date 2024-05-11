@@ -5,13 +5,14 @@ import Header from './Header';
 // import TodoListContent from './TodoListContent'
 import Todo from './Todo'
 import AddNewItem from './AddNewItem';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import SearchListItem from './SearchListItem';
 
 function App() {
+    const [items, setItems] = useState([]);
     const [newItem, setNewItem] = useState('')
     const [searchItem, setSearchItem] = useState('')
-
+    
     const handleSubmit = (e)=>
     {
         e.preventDefault();
@@ -20,6 +21,22 @@ function App() {
         addItem()
         setNewItem('')
     }
+
+    //Executed towards at the last of page rendering
+    // useEffect(()=>
+    // {
+    //     console.log("renders always on page loads and on any action on page")
+    // });
+
+    // useEffect(()=>
+    // {
+    //     console.log("renders only on page load")
+    // },[]);    
+
+    useEffect(()=>
+    {
+        console.log("renders only when the state of the variable changes")
+    },[items]);
 
     function addItem()
     {
@@ -34,9 +51,7 @@ function App() {
         setItems(newListItems);
         localStorage.setItem("todo_list", JSON.stringify(newListItems))
     }
-
-    const [items, setItems] = useState(JSON.parse(localStorage.getItem("todo_list")));
-
+   
     function handleChange(itemId)
     {
         const newListItems = items.map(item =>
