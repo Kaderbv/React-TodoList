@@ -16,7 +16,7 @@ function App() {
     const [searchItem, setSearchItem] = useState('')    
     const [errorLog, setErrorLog] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
-    const API_URL = 'http://localhost:3500/itsems'
+    const API_URL = 'http://localhost:3500/items'
     
     const handleSubmit = (e)=>
     {
