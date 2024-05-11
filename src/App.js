@@ -15,7 +15,8 @@ function App() {
     const [newItem, setNewItem] = useState('')
     const [searchItem, setSearchItem] = useState('')    
     const [errorLog, setErrorLog] = useState(null)
-    const API_URL = 'http://localhost:3500/itewms'
+    const [isLoading, setIsLoading] = useState(true)
+    const API_URL = 'http://localhost:3500/itsems'
     
     const handleSubmit = (e)=>
     {
@@ -57,9 +58,12 @@ function App() {
                 setErrorLog(error.message)
                 //console.log(error.stack)
             }
-        }
-        
-
+            finally{
+                setIsLoading(false);
+            }
+        }       
+      
+        // calling the fetchItems method
         (async () => await fetchItems())()
     },[]);
 
@@ -104,9 +108,12 @@ function App() {
         {/* <Content></Content> */}    {/* <TodoListContent></TodoListContent> */}
         <main>
             {errorLog && <p>{`Error: ${errorLog}`}</p>}
-            <Todo items={items.filter(item => (item.name.toLowerCase()).includes(searchItem.toLowerCase()))} 
-            handleChange={handleChange}
-            handleDelete={handleDelete} />
+            {isLoading && <p>Loading Items</p>}
+            {!isLoading && !errorLog &&
+                <Todo items={items.filter(item => (item.name.toLowerCase()).includes(searchItem.toLowerCase()))} 
+                handleChange={handleChange}
+                handleDelete={handleDelete} />
+            }
         </main>
         <Footer length={items.length} ></Footer>
     </div>
