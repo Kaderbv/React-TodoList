@@ -2,7 +2,7 @@
   "items": [
     {
       "id": 1,
-      "checked": true,
+      "checked": false,
       "name": "Practice React"
     },
     {
@@ -18,71 +18,12 @@
     {
       "id": 4,
       "checked": false,
-      "name": "Learn CR"
+      "name": "Swimming"
     },
     {
       "id": 5,
       "checked": false,
-      "name": "qwq"
-    },
-    {
-      "id": 6,
-      "checked": false,
-      "name": "wse"
-    },
-    {
-      "id": 7,
-      "checked": false,
-      "name": "dswd"
-    },
-    {
-      "id": 8,
-      "checked": false,
-      "name": "dsd"
-    },
-    {
-      "id": "d2ae",
-      "checked": true
-    },
-    {
-      "id": "a492",
-      "checked": true
-    },
-    {
-      "id": "16cd",
-      "checked": false
-    },
-    {
-      "id": "0c01",
-      "checked": false
-    },
-    {
-      "id": "1aa4",
-      "checked": false
-    },
-    {
-      "id": "03b4",
-      "checked": false
-    },
-    {
-      "id": "bcde",
-      "checked": false
-    },
-    {
-      "id": "eba7",
-      "checked": false
-    },
-    {
-      "id": "ae92",
-      "checked": false
-    },
-    {
-      "id": "46fa",
-      "checked": false
-    },
-    {
-      "id": "fd96",
-      "checked": false
+      "name": "sas"
     }
   ]
 }

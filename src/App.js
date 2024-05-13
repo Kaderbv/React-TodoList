@@ -7,6 +7,7 @@ import Todo from './Todo'
 import AddNewItem from './AddNewItem';
 import { useState, useEffect } from 'react';
 import SearchListItem from './SearchListItem';
+import appCRUDRequest from './appCRUDRequest';
 
 function App() {
     //pass empty array so that if data fails to read from db or any storage , it doesn't crash the application
@@ -67,32 +68,72 @@ function App() {
         (async () => await fetchItems())()
     },[]);
 
-    function addItem()
+    const addItem = async () =>
     {
-        const id = items.length !==0 ? items[items.length-1].id + 1 : 1
+        const id = items.length !==0 ? items[items.length-1].id +1 : 1
         const addItem = {id, checked:false, name:newItem}
         const newListItems =[...items,addItem]
+        //Add New items to DB
+        const postOptions ={
+            method : 'POST',
+            headers : {
+                'Content-Type' : 'application/json'
+            },
+            body : JSON.stringify(addItem)
+        }
+        const addItemAPIResponse = await appCRUDRequest(API_URL, postOptions)
+        if(!addItemAPIResponse)
+            setErrorLog(addItemAPIResponse)
+        //ends
         saveInLocalStorage(newListItems)
     }
 
     function saveInLocalStorage(newListItems)
     {
         setItems(newListItems);
-        localStorage.setItem("todo_list", JSON.stringify(newListItems))
+       // localStorage.setItem("todo_list", JSON.stringify(newListItems))
     }
-   
-    function handleChange(itemId)
+    
+      
+    const handleChange = async (itemId) =>
     {
-        const newListItems = items.map(item =>
+        const updatedListItems = items.map(item =>
             item.id === itemId ? {...item, checked:!item.checked} : item
         );
-        saveInLocalStorage(newListItems)
+    
+        //Update an item in DB
+        const updatedItem = items.filter(item => item.id === itemId);
+        const updateURL = `${API_URL}/${itemId}` //`/search?q=${encodeURIComponent(searchQuery)}`
+        const updateOptions ={
+            method : 'PATCH',
+            headers : {
+                'Content-Type' : 'application/json'
+            },
+            body : JSON.stringify({checked:updatedItem[0].checked})
+        }
+        const updatedItemAPIResponse = await appCRUDRequest(updateURL, updateOptions)
+        if(!updatedItemAPIResponse)
+            setErrorLog(updatedItemAPIResponse)
+        //ends
+
+        saveInLocalStorage(updatedListItems)
     }
 
-    function handleDelete(deleteId)
+    const handleDelete = async (deleteItemId) =>
     { 
-        const newListItems = items.filter(item => item.id !== deleteId);
-        saveInLocalStorage(newListItems)       
+        const modifiedListItems = items.filter(item => item.id !== deleteItemId);
+
+         //Delete an item in DB
+         const deleteURL = `${API_URL}/:id`
+         const deleteOptions ={
+             method : 'DELETE'           
+         }
+         const deletedItemAPIResponse = await appCRUDRequest(deleteURL, deleteOptions)
+         if(!deletedItemAPIResponse)
+             setErrorLog(deletedItemAPIResponse)
+         //ends
+
+        saveInLocalStorage(modifiedListItems)       
     }
 
    return (

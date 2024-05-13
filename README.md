@@ -73,3 +73,5 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 ctrl+alt+r to see snippet 
 choose : rafce snippet
 
+npx json-server -p 3500 -w data/db.json
+
